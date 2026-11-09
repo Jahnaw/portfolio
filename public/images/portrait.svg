@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 620" width="500" height="620" role="img" aria-label="Decorative JA monogram artwork for Jahnawi Agrawal">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#171323"/><stop offset="1" stop-color="#30243d"/></linearGradient><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#f4f1e8" stroke-opacity=".07"/></pattern></defs>
+<rect width="500" height="620" fill="url(#bg)"/><rect width="500" height="620" fill="url(#grid)"/>
+<circle cx="250" cy="285" r="180" fill="none" stroke="#c8f542" stroke-opacity=".35" stroke-width="2"/><circle cx="250" cy="285" r="150" fill="none" stroke="#c8f542" stroke-opacity=".18" stroke-width="2"/>
+<text x="250" y="335" text-anchor="middle" font-family="Arial,sans-serif" font-size="168" font-weight="700" letter-spacing="-14" fill="#f4f1e8">JA<tspan fill="#c8f542">.</tspan></text>
+<path d="M110 470H390" stroke="#c8f542" stroke-width="2"/><text x="250" y="515" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" letter-spacing="7" fill="#c9bfd5">JAHNAWI AGRAWAL</text>
+</svg>

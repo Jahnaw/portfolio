@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Manual trigger so CI can be run against a non-main ref (e.g. to verify
+  # a PR's merged tree) without waiting for a webhook to fire.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Typecheck, lint, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        # Hard gate on critical advisories. The two known high-severity
+        # findings below have no non-breaking fix and are not reachable
+        # from the production runtime, so they are reported (next step)
+        # instead of failing the build:
+        # - braces GHSA-vfj7-8cjw-p6xm via the dev-only eslint-config-next
+        #   chain (fix would force eslint-config-next@14.2.35, breaking).
+        # - source-map-js GHSA-68fv-2mgg-jv7q via build-time postcss
+        #   (no patched release published).
+        run: npm audit --audit-level=critical
+
+      - name: Report non-critical advisories
+        # Advisory only: surfaces moderate/high findings without failing
+        # dependabot PRs that cannot fix transitive advisories themselves.
+        continue-on-error: true
+        run: npm audit --audit-level=moderate
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Production build
+        run: npm run build
+
+      - name: Upload build outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-outputs
+          path: .next/
+          retention-days: 7
+          if-no-files-found: error
+          include-hidden-files: true
+
+  browser:
+    name: Browser journey (live)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: verify
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        # The browsers are ~150 MB of download that is identical on every run.
+        # The key follows the lockfile, so bumping @playwright/test fetches the
+        # new browser instead of reusing the old one.
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run the primary journey in a real browser
+        # The tests run against the live deployment, so they are skipped when it
+        # is unreachable rather than failing the whole pipeline on an outage.
+        env:
+          FM_BROWSER: chromium
+          FM_BASE_URL: ${{ vars.FM_BASE_URL }}
+        run: npx playwright test --reporter=list
+
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 5
+          if-no-files-found: ignore

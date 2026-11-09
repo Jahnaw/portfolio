@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#171323"/><stop offset="1" stop-color="#30243d"/></linearGradient><pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#8a789b" stroke-opacity=".16"/></pattern></defs>
+<rect width="1200" height="700" fill="url(#bg)"/><rect width="1200" height="700" fill="url(#grid)"/>
+<circle cx="330" cy="350" r="205" fill="none" stroke="#c8f542" stroke-opacity=".18" stroke-width="2"/><circle cx="330" cy="350" r="155" fill="none" stroke="#c8f542" stroke-opacity=".36" stroke-width="2" stroke-dasharray="10 12"/>
+<path d="M330 350L450 230" stroke="#c8f542" stroke-width="4" stroke-linecap="round"/><circle cx="330" cy="350" r="14" fill="#c8f542"/><circle cx="450" cy="230" r="11" fill="#f4f1e8"/>
+<g transform="translate(680 125)"><rect width="300" height="450" rx="24" fill="#211a2d" stroke="#c8f542" stroke-width="3"/><rect x="24" y="30" width="252" height="52" rx="10" fill="#332940"/><text x="150" y="63" font-size="20" text-anchor="middle" fill="#f4f1e8" font-family="Arial">GATE SCAN</text>
+<rect x="75" y="125" width="150" height="150" rx="8" fill="#f4f1e8"/><g fill="#241b2f"><path d="M91 141h38v38H91zM171 141h38v38h-38zM91 221h38v38H91zM143 141h13v13h-13zM143 169h13v13h-13zM143 197h13v13h-13zM171 197h13v13h-13zM198 197h11v11h-11zM171 229h38v30h-38z"/></g>
+<rect x="38" y="310" width="224" height="54" rx="10" fill="#c8f542"/><text x="150" y="344" font-size="19" text-anchor="middle" fill="#241b2f" font-family="Arial" font-weight="bold">VERIFY LOCATION</text><text x="150" y="405" font-size="15" text-anchor="middle" fill="#b8aec4" font-family="Arial">Device · QR · GPS</text></g>
+<g fill="#f4f1e8" font-family="Arial,sans-serif"><text x="150" y="620" font-size="22" letter-spacing="4">GEOFENCE VALIDATION</text><text x="680" y="625" font-size="18" fill="#c8f542">ENTRY / EXIT LOG</text></g>
+</svg>
