@@ -164,7 +164,7 @@ export function SiteHeader() {
               </Link>
             ))}
             <a
-              href={seo.repository}
+              href="https://github.com/Jahnaw"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 py-3 font-mono text-[11px] uppercase tracking-widest text-[var(--color-ink-2)]"
